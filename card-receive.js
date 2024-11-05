@@ -18,7 +18,6 @@ mm.add(
       gsap.to(".c-container_grow", {
         scale: isDesktop ? 4 : 3,
         duration: 0.1,
-        //   delay: 1,
         scrollTrigger: {
           trigger: ".c-hero",
           start: "top top",
@@ -40,11 +39,9 @@ mm.add(
           trigger: ".c-birthday_note",
           start: "top top",
           end: "+=800",
-          markers: true,
           pin: true,
           scrub: true,
           toggleActions: "play none none none",
-          // once: true,
         },
       });
 
@@ -80,9 +77,7 @@ mm.add(
         scrollTrigger: {
           trigger: ".c-slider",
           start: "top top",
-          // end: "400% top",
           scrub: true,
-          markers: true,
           pin: true,
         },
       });
@@ -94,7 +89,7 @@ mm.add(
         ease: "none",
       }).to(".inner-card_container", {
         rotate: -60,
-        xPercent: -98.5,
+        xPercent: isDesktop ? -98.5 : -107,
         yPercent: 41.5,
         ease: "none",
       });
@@ -111,7 +106,6 @@ mm.add(
           start: "top 50%",
           end: "+=400",
           scrub: 1,
-          markers: true,
         },
       });
     };
@@ -205,7 +199,6 @@ let targetProgress = 0;
 
 // Update the progress text with smooth animation
 const updateProgressText = (progress) => {
-  // Round the progress to whole number
   const roundedProgress = Math.round(progress);
 
   gsap.to(".scroll-progress_value", {
@@ -219,10 +212,8 @@ const updateProgressText = (progress) => {
 
 // Initialize Lenis scroll listener
 lenis.on("scroll", ({ scroll, limit }) => {
-  // Calculate and round target progress percentage
   targetProgress = Math.round((scroll / limit) * 100);
 
-  // Smoothly interpolate current progress to target
   gsap.to(
     { value: currentProgress },
     {
