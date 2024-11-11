@@ -92,6 +92,11 @@ mm.add(
         xPercent: isDesktop ? -98.5 : -107,
         yPercent: 41.5,
         ease: "none",
+        onComplete: () =>
+          confetti({
+            spread: 3000,
+            particleCount: 2000,
+          }),
       });
     };
 
@@ -158,6 +163,8 @@ mm.add(
     };
 
     sayCheeseAnim();
+
+    console.log("working now for me what about you");
   }
 );
 
@@ -235,4 +242,41 @@ window.addEventListener("resize", () => {
   const scrollHeight = getScrollHeight();
   targetProgress = Math.round((scrollTop / scrollHeight) * 100);
   updateProgressText(targetProgress);
+});
+
+window.addEventListener("load", () => {
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
+  const pageLoadAnim = () => {
+    const landingPageContainer = document.querySelector(
+      ".landing-main_container"
+    );
+    gsap.set(landingPageContainer, { autoAlpha: 0 });
+
+    const pageloadTl = gsap.timeline();
+
+    pageloadTl
+      .set(landingPageContainer, { autoAlpha: 1 })
+      .to("[data-text-reveal]", {
+        opacity: 1,
+        y: 0,
+        clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+        stagger: 0.2,
+        ease: "power3.out",
+        delay: 2,
+        duration: 1,
+      })
+      .from(
+        "[data-image-reveal]",
+        {
+          autoAlpha: 0,
+          stagger: 0.1,
+        },
+        "-=0.45"
+      );
+  };
+
+  pageLoadAnim();
 });
