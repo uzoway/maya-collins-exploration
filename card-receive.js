@@ -38,38 +38,22 @@ const homePageAnimations = () => {
   pageLoadAnim();
 };
 
-const cardReceiveAnimations = () => {
-  if ("scrollRestoration" in history) {
-    history.scrollRestoration = "manual";
-  }
-
+const cardReceivePageAnimations = () => {
   const cardReceivePageLoad = () => {
     const cardReceiveTl = gsap.timeline();
 
     cardReceiveTl
-      .to(
-        "[data-left-sticky='image'], [data-right-sticky='image']",
-        {
-          scale: 1,
-          delay: 0.6,
-          duration: 1,
-        },
-        "0"
-      )
+      .to("[data-left-sticky='image'], [data-right-sticky='image']", {
+        scale: 1,
+        delay: 0.3,
+        duration: 1,
+      })
       .to("[data-reveal-text]", {
-        // opacity: 1,
-        // y: 0,
-        // clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
-        // stagger: 0.15,
-        // ease: "power3.out",
-        // duration: 1,
-
         opacity: 1,
         y: 0,
         clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
         stagger: 0.2,
         ease: "power3.out",
-        delay: 0.3,
         duration: 1,
       });
   };
@@ -337,8 +321,24 @@ function pageTransition() {
   tl.fromTo(
     ".c-page_transition",
     { top: "100%" },
-    { top: "0", duration: 0.5, ease: "power2.inOut" }
+    { top: "0", duration: 1, ease: "expo.inOut" }
   );
+
+  tl.fromTo(
+    "[data-transition-text]",
+    {
+      y: "100%",
+      clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
+      ease: "power4.out",
+    },
+    {
+      y: "0%",
+      clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+      stagger: 0.2,
+      duration: 0.6,
+    }
+  ),
+    "-=0.9";
 
   // Hold for content switch
   tl.to(".c-page_transition", { top: "0", duration: 0.2 });
@@ -346,12 +346,15 @@ function pageTransition() {
   // Slide out to bottom
   tl.to(".c-page_transition", {
     top: "-100%",
-    duration: 0.5,
-    ease: "power2.inOut",
+    duration: 1,
+    ease: "power4.in",
   });
 
   // Reset position after animation
   tl.set(".c-page_transition", { top: "-100%" });
+  tl.set("[data-transition-text]", {
+    y: "100%",
+  });
 
   return tl;
 }
@@ -363,7 +366,7 @@ function initAnimations(namespace) {
     homePageAnimations();
   } else if (namespace === "card-receive") {
     // About page animations
-    cardReceiveAnimations();
+    cardReceivePageAnimations();
   }
 }
 
